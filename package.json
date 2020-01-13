@@ -1,0 +1,64 @@
+{
+  "name": "universal-model-vue",
+  "version": "0.1.0",
+  "description": "Universal model for Vue",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "clean": "rimraf ./lib",
+    "check-types": "tsc --outDir ./lib/types",
+    "build": "babel ./src --out-dir lib --source-maps --extensions \".ts\", --ignore \"src/**/*.test.*\",\"src/setupTests.js\"",
+    "lint": "eslint ./src --ext .ts",
+    "prebuild": "npm run clean && npm run prettier && npm run lint && npm run check-types",
+    "prepublishOnly": "npm run build",
+    "prettier": "prettier --check \"src/**/*.ts\"",
+    "test-coverage": "jest ./src --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/universal-model/universal-model-vue.git"
+  },
+  "keywords": [
+    "Univeral Model",
+    "Vue"
+  ],
+  "author": "Petri Silen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/universal-model/universal-model-vue/issues"
+  },
+  "homepage": "https://github.com/universal-model/universal-model-vue#readme",
+  "dependencies": {
+    "rxjs": "^6.5.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.0",
+    "@babel/core": "^7.8.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.0",
+    "@babel/preset-env": "^7.8.2",
+    "@babel/preset-typescript": "^7.8.0",
+    "@types/estree": "0.0.42",
+    "@typescript-eslint/eslint-plugin": "^2.15.0",
+    "@typescript-eslint/parser": "^2.15.0",
+    "eslint": "^6.8.0",
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.4",
+    "vue": "^3.0.0-alpha.1"
+  },
+  "browserslist": [
+    "last 2 version",
+    "> 0.2%",
+    "Firefox ESR",
+    "not dead"
+  ],
+  "prettier": {
+    "arrowParens": "always",
+    "printWidth": 110,
+    "tabWidth": 2,
+    "singleQuote": true
+  }
+}

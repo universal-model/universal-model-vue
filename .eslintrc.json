@@ -1,0 +1,46 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "env": {
+    "serviceworker": true,
+    "browser": true,
+    "jest": true
+  },
+  "rules": {
+    "operator-linebreak": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 300
+      }
+    ],
+    "comma-dangle": "off",
+    "space-before-function-paren": "off",
+    "func-names": "off",
+    "indent": "off",
+    "function-paren-newline": "off",
+    "arrow-parens": "off",
+    "no-use-before-define": "off",
+    "no-console": "off",
+    "object-curly-newline": "off",
+    "class-methods-use-this": "off",
+    "no-else-return": "off",
+    "implicit-arrow-linebreak": "off",
+    "no-confusing-arrow": "off",
+    "no-plusplus": "off",
+    "import/no-named-default": "off",
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      {
+        "allowExpressions": true
+      }
+    ]
+  },
+  "settings": {}
+}
