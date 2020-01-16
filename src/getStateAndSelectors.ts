@@ -9,7 +9,7 @@ type ComputedSelectors<T extends State, U extends SelectorsBase<T>> = {
 export default function getStateAndSelectors<T extends State, U extends SelectorsBase<T>>(
   store: Store<T, U>
 ): [T extends Ref ? T : UnwrapRef<T>, ComputedSelectors<T, U>] {
-  const reactiveState = reactive(store.getObservableState().getValue());
+  const reactiveState = reactive(store.getState());
 
   const reactiveSelectors = {} as ComputedSelectors<T, U>;
   const selectors = store.getSelectors();
@@ -23,17 +23,6 @@ export default function getStateAndSelectors<T extends State, U extends Selector
         ))
     );
   }
-
-  store.getObservableState().subscribe({
-    next: (newState: T) => {
-      const currentState = reactiveState;
-      Object.keys(newState).forEach((key: string) => {
-        if (newState[key] !== currentState[key]) {
-          currentState[key as keyof typeof reactiveState] = newState[key];
-        }
-      });
-    }
-  });
 
   return [reactiveState, reactiveSelectors];
 }

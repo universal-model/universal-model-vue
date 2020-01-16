@@ -1,3 +1,3 @@
-# Universal Mode Vue
+# Universal Model Vue
 
 
