@@ -16,6 +16,9 @@ type ComputedSelectors<T extends State, U extends SelectorsBase<T>> = {
   [K in keyof U]: ComputedRef<ReturnType<U[K]>>;
 };
 
+type ReactiveState<T> = T extends Ref ? T : UnwrapRef<T>;
+type PartialReactiveState<T> = Partial<ReactiveState<T>>;
+
 export default class Store<T extends State, U extends SelectorsBase<T>> {
   private readonly reactiveState: T extends Ref ? T : UnwrapRef<T>;
   private readonly reactiveSelectors: ComputedSelectors<T, U>;
@@ -29,13 +32,24 @@ export default class Store<T extends State, U extends SelectorsBase<T>> {
           (this.reactiveSelectors[key] = computed(() =>
             // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
             // @ts-ignore
-            selectors[key](reactiveState)
+            selectors[key](this.reactiveState)
           ))
       );
     }
   }
 
-  getStateAndSelectors(): [T extends Ref ? T : UnwrapRef<T>, ComputedSelectors<T, U>] {
+  getStateAndSelectors(): [ReactiveState<T>, ComputedSelectors<T, U>] {
     return [this.reactiveState, this.reactiveSelectors];
+  }
+
+  patchState(subState: PartialReactiveState<T>): void {
+    Object.entries(subState).forEach(
+      ([key, value]: [
+        keyof PartialReactiveState<T>,
+        PartialReactiveState<T>[keyof PartialReactiveState<T>]
+      ]) => {
+        this.reactiveState[key] = value as ReactiveState<T>[keyof ReactiveState<T>];
+      }
+    );
   }
 }
