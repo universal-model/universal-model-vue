@@ -1,6 +1,6 @@
 {
   "name": "universal-model-vue",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Universal model for Vue",
   "main": "lib/index.js",
   "types": "lib/types/index.d.ts",
