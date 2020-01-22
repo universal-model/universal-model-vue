@@ -6,6 +6,14 @@ Universal model is a model which can be used with any of following UI frameworks
 * Svelte 3+
 * Vue.js 3+
 
+## Install
+
+    npm install --save universal-model-vue
+
+## Prerequisites for universal-model-vue
+
+     "vue": "^3.0.0-alpha.1"
+     
 ## Clean UI Architecture
 ![alt text](https://github.com/universal-model/universal-model-vue/raw/master/images/mvc.png "MVC")
 * Model-View-Controller (https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
