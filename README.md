@@ -225,7 +225,7 @@ TodoListView.vue
         <input
           id="shouldShowOnlyUnDoneTodos"
           type="checkbox"
-          :checked="todosState.shouldShowOnlyDoneTodos"
+          :checked="todosState.shouldShowOnlyUnDoneTodos"
           @click="toggleShouldShowOnlyUnDoneTodos"
         />
         <label for="shouldShowOnlyUnDoneTodos">Show only undone todos</label>
