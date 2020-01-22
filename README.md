@@ -187,9 +187,9 @@ fetchTodos.ts
     export default async function fetchTodos(): Promise<void> {
       const { todosState } = store.getState();
     
-      todosState.isFetchingTodos = false;
-      todosState.todos = await todoService.fetchTodos();
       todosState.isFetchingTodos = true;
+      todosState.todos = await todoService.fetchTodos();
+      todosState.isFetchingTodos = false;
     }
     
 ## Controller
@@ -221,7 +221,8 @@ TodoListView.vue
           @click="toggleShouldShowOnlyUnDoneTodos"
         />
         <label for="shouldShowOnlyUnDoneTodos">Show only undone todos</label>
-        <ul>
+        <div v-if="todosState.isFetchingTodos">Fetching todos...</div>
+        <ul v-else>
           <li v-for="todo in shownTodos">
             <input :id="todo.name" type="checkbox" :checked="todo.isDone" @click="toggleIsDoneTodo(todo)" />
             <label :for="todo.name">{{ todo.name }}</label>
@@ -265,5 +266,18 @@ TodoListView.vue
     </script>
     
     <style scoped></style>
+    
+## API
+Create and export store in store.ts:
 
+    export default createStore(initialState, selectors);
+    
+Access store
+
+    const state = store.getState();
+    const [state, selectors] = store.getStateAndSelectors();
+
+## Full Example
+
+https://github.com/universal-model/universal-model-vue-todo-app
 
