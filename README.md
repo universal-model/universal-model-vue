@@ -289,3 +289,5 @@ Access store
 
 https://github.com/universal-model/universal-model-vue-todo-app
 
+## License
+MIT License
