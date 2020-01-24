@@ -98,7 +98,7 @@ createTodoListStateSelectors.ts
     
     export default createTodoListStateSelectors;
 
-### App Store
+### Store
 store.ts
 
     import { createStore } from 'universal-model-vue';
