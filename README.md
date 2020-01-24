@@ -60,9 +60,13 @@ Access store
       |  |- view 
       |- store
          
-## State
 
-### Initial state
+
+## Example
+
+### State
+
+#### Initial state
 initialTodoListState.ts
 
     export interface Todo {
@@ -77,7 +81,7 @@ initialTodoListState.ts
       hasTodosFetchFailure: false
     };
 
-### State selectors
+#### State selectors
 createTodoListStateSelectors.ts
 
     import { State } from '@/store/store';
@@ -94,7 +98,7 @@ createTodoListStateSelectors.ts
     
     export default createTodoListStateSelectors;
 
-## App Store
+### App Store
 store.ts
 
     import { createStore } from 'universal-model-vue';
@@ -120,7 +124,7 @@ store.ts
     
     export default createStore(initialState, selectors);
 
-## Service
+### Service
 ITodoService.ts
 
     import { Todo } from '@/todolist/model/state/initialTodoListState';
@@ -158,7 +162,7 @@ todoService.ts
     
     export default new FakeTodoService();
 
-## Actions
+### Actions
 addTodo.ts
     
     import store from '@/store/store';
@@ -224,7 +228,7 @@ fetchTodos.ts
         todosState.isFetchingTodos = false;
     }
     
-## Controller
+### Controller
 todoListController.ts
 
     import addTodo from "@/todolist/model/actions/addTodo";
@@ -241,7 +245,7 @@ todoListController.ts
     };
 
     
-## View
+### View
 TodoListView.vue
 
     <template>
@@ -300,8 +304,8 @@ TodoListView.vue
     
     <style scoped></style>
 
-## Full Example
+### Full Example
 https://github.com/universal-model/universal-model-vue-todo-app
 
-## License
+### License
 MIT License
