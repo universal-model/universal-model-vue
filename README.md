@@ -26,6 +26,16 @@ Universal model is a model which can be used with any of following UI frameworks
 * There can be multiple interchangable views that use same part of model
 * A new view can be created to represent model differently without any changes to model
 
+## API
+Create and export store in store.ts:
+
+    export default createStore(initialState, selectors);
+    
+Access store
+
+    const state = store.getState();
+    const [state, selectors] = store.getStateAndSelectors();
+    
 ## Clean UI Code directory layout
 
     - src
@@ -63,7 +73,8 @@ initialTodoListState.ts
     export default {
       todos: [] as Todo[],
       shouldShowOnlyUnDoneTodos: false,
-      isFetchingTodos: false
+      isFetchingTodos: false,
+      hasTodosFetchFailure: false
     };
 
 ### State selectors
@@ -115,7 +126,7 @@ ITodoService.ts
     import { Todo } from '@/todolist/model/state/initialTodoListState';
     
     export interface ITodoService {
-      fetchTodos(): Promise<Todo[]>;
+      tryFetchTodos(): Promise<Todo[]>;
     }
     
 FakeTodoService.ts
@@ -125,14 +136,20 @@ FakeTodoService.ts
     import Constants from "@/Constants";
     
     export default class FakeTodoService implements ITodoService {
-      fetchTodos(): Promise<Todo[]> {
-        return new Promise<Todo[]>((resolve: (todo: Todo[]) => void) => {
-          setTimeout(() => resolve([
-            { name: 'first todo', isDone: true },
-            { name: 'second todo', isDone: false }
-          ]), Constants.FAKE_SERVICE_LATENCY_IN_MILLIS);
-        });
-      }
+      tryFetchTodos(): Promise<Todo[]> {
+          return new Promise<Todo[]>((resolve: (todo: Todo[]) => void, reject: () => void) => {
+            setTimeout(() => {
+              if (Math.random() < 0.95) {
+                resolve([
+                  { name: 'first todo', isDone: true },
+                  { name: 'second todo', isDone: false }
+                ]);
+              } else {
+                reject();
+              }
+            }, Constants.FAKE_SERVICE_LATENCY_IN_MILLIS);
+          });
+        }
     }
 
 todoService.ts
@@ -196,8 +213,15 @@ fetchTodos.ts
       const { todosState } = store.getState();
     
       todosState.isFetchingTodos = true;
-      todosState.todos = await todoService.fetchTodos();
-      todosState.isFetchingTodos = false;
+      todosState.hasTodosFetchFailure = false;
+        
+        try {
+          todosState.todos = await todoService.tryFetchTodos();
+        } catch (error) {
+          todosState.hasTodosFetchFailure = true;
+        }
+        
+        todosState.isFetchingTodos = false;
     }
     
 ## Controller
@@ -230,6 +254,7 @@ TodoListView.vue
         />
         <label for="shouldShowOnlyUnDoneTodos">Show only undone todos</label>
         <div v-if="todosState.isFetchingTodos">Fetching todos...</div>
+        <div v-else-if="todosState.hasTodosFetchFailure">Failed to fetch todos</div>
         <ul v-else>
           <li v-for="todo in shownTodos">
             <input :id="todo.name" type="checkbox" :checked="todo.isDone" @click="toggleIsDoneTodo(todo)" />
@@ -274,19 +299,8 @@ TodoListView.vue
     </script>
     
     <style scoped></style>
-    
-## API
-Create and export store in store.ts:
-
-    export default createStore(initialState, selectors);
-    
-Access store
-
-    const state = store.getState();
-    const [state, selectors] = store.getStateAndSelectors();
 
 ## Full Example
-
 https://github.com/universal-model/universal-model-vue-todo-app
 
 ## License
