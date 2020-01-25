@@ -39,11 +39,12 @@ Access store
 Use state and selectors in View
 
     setup(): object {
-      const [{ todosState }, { shownTodos }] = store.getStateAndSelectors();
+      const [{ subState1 }, { subState2: { prop1 } }, { subState3: { prop1: myProp }] = store.getStateAndSelectors();
       
       return {
-        todoState,
-        shownTodos
+        subState1,
+        prop1,
+        myProp
       };
     }
     
