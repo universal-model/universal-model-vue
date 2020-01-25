@@ -34,6 +34,7 @@ Create and export store in store.ts:
 Access store
 
     const state = store.getState();
+    const selectors = store.getSelectors();
     const [state, selectors] = store.getStateAndSelectors();
     
 Use state and selectors in View
