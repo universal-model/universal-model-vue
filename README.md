@@ -158,7 +158,9 @@ todoListController.ts
       }
     };
 
-## Store
+## Model
+
+### Store
 store.ts
 
     import { createStore } from 'universal-model-vue';
@@ -183,8 +185,6 @@ store.ts
     };
     
     export default createStore(initialState, selectors);
-
-## Model
 
 ### State
 
