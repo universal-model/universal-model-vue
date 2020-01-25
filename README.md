@@ -36,6 +36,18 @@ Access store
     const state = store.getState();
     const [state, selectors] = store.getStateAndSelectors();
     
+Use state and selectors in View
+
+    setup(): object {
+      const [{ todosState }, { shownTodos }] = store.getStateAndSelectors();
+      
+      return {
+        todoState,
+        shownTodos
+      };
+    }
+    
+    
 ## Clean UI Code directory layout
 
     - src
@@ -63,6 +75,82 @@ Access store
 
 
 ## Example
+
+### View
+TodoListView.vue
+
+    <template>
+      <div>
+        <input
+          id="shouldShowOnlyUnDoneTodos"
+          type="checkbox"
+          :checked="todosState.shouldShowOnlyUnDoneTodos"
+          @click="toggleShouldShowOnlyUnDoneTodos"
+        />
+        <label for="shouldShowOnlyUnDoneTodos">Show only undone todos</label>
+        <div v-if="todosState.isFetchingTodos">Fetching todos...</div>
+        <div v-else-if="todosState.hasTodosFetchFailure">Failed to fetch todos</div>
+        <ul v-else>
+          <li v-for="todo in shownTodos">
+            <input :id="todo.name" type="checkbox" :checked="todo.isDone" @click="toggleIsDoneTodo(todo)" />
+            <label :for="todo.name">{{ todo.name }}</label>
+            <button @click="removeTodo(todo)">Remove</button>
+          </li>
+        </ul>
+      </div>
+    </template>
+    
+    <script lang="ts">
+    import { onMounted, onUnmounted } from 'vue';
+    import store from '@/store/store';
+    import toggleShouldShowOnlyUnDoneTodos from '@/todolist/model/actions/toggleShouldShowOnlyUnDoneTodos';
+    import removeTodo from '@/todolist/model/actions/removeTodo';
+    import toggleIsDoneTodo from '@/todolist/model/actions/toggleIsDoneTodo';
+    import fetchTodos from '@/todolist/model/actions/fetchTodos';
+    import todoListController from '@/todolist/controller/todoListController';
+    
+    export default {
+      setup(): object {
+        const [{ todosState }, { shownTodos }] = store.getStateAndSelectors();
+    
+        onMounted(() => {
+          fetchTodos();
+          document.addEventListener('keypress', todoListController.handleKeyPress);
+        });
+    
+        onUnmounted(() => {
+          document.removeEventListener('keypress', todoListController.handleKeyPress);
+        });
+    
+        return {
+          todosState,
+          shownTodos,
+          removeTodo,
+          toggleShouldShowOnlyUnDoneTodos,
+          toggleIsDoneTodo
+        };
+      }
+    };
+    </script>
+    
+    <style scoped></style>
+    
+### Controller
+todoListController.ts
+
+    import addTodo from "@/todolist/model/actions/addTodo";
+    import removeAllTodos from "@/todolist/model/actions/removeAllTodos";
+    
+    export default {
+      handleKeyPress(keyboardEvent: KeyboardEvent): void {
+        if (keyboardEvent.code === 'KeyA' && keyboardEvent.ctrlKey) {
+          addTodo();
+        } else if (keyboardEvent.code === 'KeyR' && keyboardEvent.ctrlKey) {
+          removeAllTodos();
+        }
+      }
+    };
+
 
 ### State
 
@@ -228,82 +316,6 @@ fetchTodos.ts
         todosState.isFetchingTodos = false;
     }
     
-### Controller
-todoListController.ts
-
-    import addTodo from "@/todolist/model/actions/addTodo";
-    import removeAllTodos from "@/todolist/model/actions/removeAllTodos";
-    
-    export default {
-      handleKeyPress(keyboardEvent: KeyboardEvent): void {
-        if (keyboardEvent.code === 'KeyA') {
-          addTodo();
-        } else if (keyboardEvent.code === 'KeyR') {
-          removeAllTodos();
-        }
-      }
-    };
-
-    
-### View
-TodoListView.vue
-
-    <template>
-      <div>
-        <input
-          id="shouldShowOnlyUnDoneTodos"
-          type="checkbox"
-          :checked="todosState.shouldShowOnlyUnDoneTodos"
-          @click="toggleShouldShowOnlyUnDoneTodos"
-        />
-        <label for="shouldShowOnlyUnDoneTodos">Show only undone todos</label>
-        <div v-if="todosState.isFetchingTodos">Fetching todos...</div>
-        <div v-else-if="todosState.hasTodosFetchFailure">Failed to fetch todos</div>
-        <ul v-else>
-          <li v-for="todo in shownTodos">
-            <input :id="todo.name" type="checkbox" :checked="todo.isDone" @click="toggleIsDoneTodo(todo)" />
-            <label :for="todo.name">{{ todo.name }}</label>
-            <button @click="removeTodo(todo)">Remove</button>
-          </li>
-        </ul>
-      </div>
-    </template>
-    
-    <script lang="ts">
-    import { onMounted, onUnmounted } from 'vue';
-    import store from '@/store/store';
-    import toggleShouldShowOnlyUnDoneTodos from '@/todolist/model/actions/toggleShouldShowOnlyUnDoneTodos';
-    import removeTodo from '@/todolist/model/actions/removeTodo';
-    import toggleIsDoneTodo from '@/todolist/model/actions/toggleIsDoneTodo';
-    import fetchTodos from '@/todolist/model/actions/fetchTodos';
-    import todoListController from '@/todolist/controller/todoListController';
-    
-    export default {
-      setup(): object {
-        const [{ todosState }, { shownTodos }] = store.getStateAndSelectors();
-    
-        onMounted(() => {
-          fetchTodos();
-          document.addEventListener('keypress', todoListController.handleKeyPress);
-        });
-    
-        onUnmounted(() => {
-          document.removeEventListener('keypress', todoListController.handleKeyPress);
-        });
-    
-        return {
-          todosState,
-          shownTodos,
-          removeTodo,
-          toggleShouldShowOnlyUnDoneTodos,
-          toggleIsDoneTodo
-        };
-      }
-    };
-    </script>
-    
-    <style scoped></style>
-
 ### Full Example
 https://github.com/universal-model/universal-model-vue-todo-app
 
