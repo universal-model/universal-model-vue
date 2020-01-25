@@ -1,9 +1,9 @@
 # Universal Model for Vue
 
 Universal model is a model which can be used with any of following UI frameworks:
-* Angular 2+
-* React 16.8+
-* Svelte 3+
+* Angular 2+ [universal-model-angular]
+* React 16.8+ [universal-model-react]
+* Svelte 3+ [universal-model-svelte]
 * Vue.js 3+
 
 ## Install
@@ -322,3 +322,7 @@ https://github.com/universal-model/universal-model-vue-todo-app
 
 ### License
 MIT License
+
+[universal-model-angular]: https://github.com/universal-model/universal-model-angular
+[universal-model-react]: https://github.com/universal-model/universal-model-react
+[universal-model-svelte]: https://github.com/universal-model/universal-model-svelte
