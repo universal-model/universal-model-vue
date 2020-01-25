@@ -74,9 +74,9 @@ Use state and selectors in View
          
 
 
-## Example
+# Example
 
-### View
+## View
 TodoListView.vue
 
     <template>
@@ -135,7 +135,7 @@ TodoListView.vue
     
     <style scoped></style>
     
-### Controller
+## Controller
 todoListController.ts
 
     import addTodo from "@/todolist/model/actions/addTodo";
@@ -151,6 +151,33 @@ todoListController.ts
       }
     };
 
+## Store
+store.ts
+
+    import { createStore } from 'universal-model-vue';
+    import initialTodoListState from '@/todolist/model/state/initialTodoListState';
+    import createTodoListStateSelectors from '@/todolist/model/state/createTodoListStateSelectors';
+    
+    const initialState = {
+      todosState: initialTodosState,
+      otherState: initialOtherState,
+      .
+      .
+    };
+    
+    export type State = typeof initialState;
+    
+    const selectors = {
+      ...createTodosStateSelectors<State>(),
+      ...createOtherStateSelectors<State>(),
+      .
+      .
+      
+    };
+    
+    export default createStore(initialState, selectors);
+
+## Model
 
 ### State
 
@@ -185,33 +212,7 @@ createTodoListStateSelectors.ts
     });
     
     export default createTodoListStateSelectors;
-
-### Store
-store.ts
-
-    import { createStore } from 'universal-model-vue';
-    import initialTodoListState from '@/todolist/model/state/initialTodoListState';
-    import createTodoListStateSelectors from '@/todolist/model/state/createTodoListStateSelectors';
     
-    const initialState = {
-      todosState: initialTodosState,
-      otherState: initialOtherState,
-      .
-      .
-    };
-    
-    export type State = typeof initialState;
-    
-    const selectors = {
-      ...createTodosStateSelectors<State>(),
-      ...createOtherStateSelectors<State>(),
-      .
-      .
-      
-    };
-    
-    export default createStore(initialState, selectors);
-
 ### Service
 ITodoService.ts
 
