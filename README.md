@@ -138,7 +138,7 @@ TodoListView.vue
     
     export default {
       setup(): object {
-        const [{ todosState }, { shownTodos, userName }] = store.getStateAndSelectors();
+        const [{ todosState }, { shownTodos }] = store.getStateAndSelectors();
     
         onMounted(() => {
           fetchTodos();
