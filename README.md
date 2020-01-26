@@ -57,7 +57,7 @@ Universal model is a model which can be used with any of following UI frameworks
     const [state, selectors] = store.getStateAndSelectors();
         
 ## API Examples
-Create and export store in store.ts:
+**Create and export store in store.ts:**
     
     const initialState = {
       componentAState: initialComponentAState,
@@ -77,14 +77,14 @@ Create and export store in store.ts:
     
     export default createStore(initialState, selectors);
     
-Access store in Actions
+**Access store in Actions**
 
     export default function changeComponentAStateProp1(newValue) {
       const { componentAState } = store.getState();
       componentAState.prop1 = newValue;
     }
     
-Use actions, state and selectors in View
+**Use actions, state and selectors in View**
 
 Components should use only their own state and access other components' states using selectors
 provided by those components. This will ensure encapsulation of each component's state.
