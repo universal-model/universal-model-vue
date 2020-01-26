@@ -79,7 +79,7 @@ Create and export store in store.ts:
     
 Access store in Actions
 
-    export default function changeComponentAProp1(newValue) {
+    export default function changeComponentAStateProp1(newValue) {
       const { componentAState } = store.getState();
       componentAState.prop1 = newValue;
     }
@@ -97,7 +97,7 @@ provided by those components. This will ensure encapsulation of each component's
         componentAState,
         selector1,
         selector2,
-        changeComponentAProp1
+        changeComponentAStateProp1
       };
     }
             
