@@ -51,7 +51,9 @@ Universal model is a model which can be used with any of following UI frameworks
       |- store
       
 ## API
-    const store = createStore(initialState, combineSelectors(selectors))
+    createSubState(subState);
+    const store = createStore(initialState, combineSelectors(selectors));
+    
     const state = store.getState();
     const selectors = store.getSelectors();
     const [state, selectors] = store.getStateAndSelectors();
@@ -60,8 +62,8 @@ Universal model is a model which can be used with any of following UI frameworks
 **Create and export store in store.ts:**
     
     const initialState = {
-      componentAState: initialComponentAState,
-      componentBState: initialComponentBState,
+      componentAState: createSubState(initialComponentAState),
+      componentBState: createSubState(initialComponentBState),
       .
       .
     };
@@ -238,15 +240,15 @@ todoListController.ts
 ### Store
 store.ts
 
-    import { combineSelectors, createStore } from 'universal-model-vue';
+    import { combineSelectors, createStore, createSubState } from 'universal-model-vue';
     import initialHeaderState from '@/header/model/state/initialHeaderState';
     import initialTodoListState from '@/todolist/model/state/initialTodoListState';
     import createTodoListStateSelectors from '@/todolist/model/state/createTodoListStateSelectors';
     import createHeaderStateSelectors from '@/header/model/state/createHeaderStateSelectors';
     
     const initialState = {
-      headerState: initialHeaderState,
-      todosState: initialTodoListState
+      headerState: createSubState(initialHeaderState),
+      todosState: createSubState(initialTodoListState)
     };
     
     export type State = typeof initialState;
