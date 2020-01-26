@@ -25,35 +25,6 @@ Universal model is a model which can be used with any of following UI frameworks
 * Views contain NO business logic
 * There can be multiple interchangable views that use same part of model
 * A new view can be created to represent model differently without any changes to model
-
-## API
-Create and export store in store.ts:
-
-    export default createStore(initialState, selectors);
-    
-Access store
-
-    const state = store.getState();
-    const selectors = store.getSelectors();
-    const [state, selectors] = store.getStateAndSelectors();
-    
-Use state and selectors in View
-
-    setup(): object {
-      const [
-        { subState1 , subState2: { prop1 }, subState3: { prop1: myProp } },
-        { selector1, selector2 }
-      ] = store.getStateAndSelectors();
-      
-      return {
-        subState1,
-        prop1,
-        myProp,
-        selector1,
-        selector2
-      };
-    }
-    
     
 ## Clean UI Code directory layout
 
@@ -78,9 +49,56 @@ Use state and selectors in View
       |  |  |- state
       |  |- view 
       |- store
-         
+      
+## API
+    combineSelectors(selectorsObjects)
+    createState(initialState, selectors)
+    const state = store.getState();
+    const selectors = store.getSelectors();
+    const [state, selectors] = storel.getStateAndSelectors();
+        
+## API Examples
+Create and export store in store.ts:
+    
+    const initialState = {
+      componentAState: initialComponentAState,
+      componentBState: initialComponentBState,
+      .
+      .
+    };
+    
+    export type State = typeof initialState;
+    
+    const selectors = combineSelectors([
+      createComponentAStateSelectors<State>(),
+      createComponentBStateSelectors<State>(),
+      .
+      .
+    ]);
+    
+    export default createStore(initialState, selectors);
+    
+Access store in Actions
 
+    export default function changeComponentAProp1(newValue) {
+      const { componentAState } = store.getState();
+      componentAState.prop1 = newValue;
+    }
+    
+Use actions, state and selectors in View
 
+    export default {
+      setup(): object {
+        const [ { componentAState }, { selector1, selector2 }] = store.getStateAndSelectors();
+      
+      return {
+        componentAState,
+        selector1,
+        selector2,
+        changeComponentAProp1
+      };
+    }
+            
 # Example
 
 ## View
@@ -100,7 +118,7 @@ TodoListView.vue
         <ul v-else>
           <li v-for="todo in shownTodos">
             <input :id="todo.name" type="checkbox" :checked="todo.isDone" @click="toggleIsDoneTodo(todo)" />
-            <label :for="todo.name">{{ todo.name }}</label>
+            <label :for="todo.name">{{ userName }}: {{ todo.name }}</label>
             <button @click="removeTodo(todo)">Remove</button>
           </li>
         </ul>
@@ -118,7 +136,7 @@ TodoListView.vue
     
     export default {
       setup(): object {
-        const [{ todosState }, { shownTodos }] = store.getStateAndSelectors();
+        const [{ todosState }, { shownTodos, userName }] = store.getStateAndSelectors();
     
         onMounted(() => {
           fetchTodos();
@@ -132,6 +150,7 @@ TodoListView.vue
         return {
           todosState,
           shownTodos,
+          userName,
           removeTodo,
           toggleShouldShowOnlyUnDoneTodos,
           toggleIsDoneTodo
@@ -163,26 +182,21 @@ todoListController.ts
 ### Store
 store.ts
 
-    import { createStore } from 'universal-model-vue';
+    import { combineSelectors, createStore } from 'universal-model-vue';
     import initialTodoListState from '@/todolist/model/state/initialTodoListState';
     import createTodoListStateSelectors from '@/todolist/model/state/createTodoListStateSelectors';
     
     const initialState = {
       todosState: initialTodosState,
-      otherState: initialOtherState,
-      .
-      .
+      otherState: initialOtherState
     };
     
     export type State = typeof initialState;
     
-    const selectors = {
-      ...createTodosStateSelectors<State>(),
-      ...createOtherStateSelectors<State>(),
-      .
-      .
-      
-    };
+    const selectors = combineSelectors([
+      createTodosStateSelectors<State>(),
+      createOtherStateSelectors<State>()
+    ]);
     
     export default createStore(initialState, selectors);
 
