@@ -51,11 +51,10 @@ Universal model is a model which can be used with any of following UI frameworks
       |- store
       
 ## API
-    combineSelectors(selectorsObjects)
-    createState(initialState, selectors)
+    const store = createStore(initialState, combineSelectors(selectors))
     const state = store.getState();
     const selectors = store.getSelectors();
-    const [state, selectors] = storel.getStateAndSelectors();
+    const [state, selectors] = store.getStateAndSelectors();
         
 ## API Examples
 Create and export store in store.ts:
@@ -86,6 +85,9 @@ Access store in Actions
     }
     
 Use actions, state and selectors in View
+
+Components should use only their own state and access other components' states using selectors
+provided by those components. This will ensure encapsulation of each component's state.
 
     export default {
       setup(): object {
@@ -118,7 +120,7 @@ TodoListView.vue
         <ul v-else>
           <li v-for="todo in shownTodos">
             <input :id="todo.name" type="checkbox" :checked="todo.isDone" @click="toggleIsDoneTodo(todo)" />
-            <label :for="todo.name">{{ userName }}: {{ todo.name }}</label>
+            <label :for="todo.name">{{ todo.name }}</label>
             <button @click="removeTodo(todo)">Remove</button>
           </li>
         </ul>
