@@ -104,6 +104,60 @@ provided by those components. This will ensure encapsulation of each component's
 # Example
 
 ## View
+
+App.vue
+
+    <template>
+      <div>
+        <HeaderView />
+        <TodoListView />
+      </div>
+    </template>
+    
+    <script lang="ts">
+    import HeaderView from '@/header/view/HeaderView.vue';
+    import TodoListView from '@/todolist/view/TodoListView.vue';
+    
+    // noinspection JSUnusedGlobalSymbols
+    export default {
+      name: 'App',
+      components: { HeaderView, TodoListView }
+    };
+    </script>
+    
+    <style scoped></style>
+
+HeaderView.vue
+
+    <template>
+      <div>
+        <h1>{{ headerState.userName }}</h1>
+        <label for="userName">User name:</label>
+        <input id="userName" @change="({ target: { value } }) => changeUserName(value)" />
+      </div>
+    </template>
+    
+    <script lang="ts">
+    import store from '@/store/store';
+    import changeUserName from '@/header/model/actions/changeUserName';
+    
+    export default {
+      name: 'HeaderView',
+    
+      setup(): object {
+        const [{ headerState }] = store.getStateAndSelectors();
+    
+        return {
+          headerState,
+          changeUserName
+        };
+      }
+    };
+    </script>
+    
+    <style scoped></style>
+
+
 TodoListView.vue
 
     <template>
@@ -120,7 +174,7 @@ TodoListView.vue
         <ul v-else>
           <li v-for="todo in shownTodos">
             <input :id="todo.name" type="checkbox" :checked="todo.isDone" @click="toggleIsDoneTodo(todo)" />
-            <label :for="todo.name">{{ todo.name }}</label>
+            <label :for="todo.name">{{ userName }}: {{ todo.name }}</label>
             <button @click="removeTodo(todo)">Remove</button>
           </li>
         </ul>
@@ -138,7 +192,7 @@ TodoListView.vue
     
     export default {
       setup(): object {
-        const [{ todosState }, { shownTodos }] = store.getStateAndSelectors();
+        const [{ todosState }, { shownTodos, userName }] = store.getStateAndSelectors();
     
         onMounted(() => {
           fetchTodos();
@@ -185,26 +239,35 @@ todoListController.ts
 store.ts
 
     import { combineSelectors, createStore } from 'universal-model-vue';
+    import initialHeaderState from '@/header/model/state/initialHeaderState';
     import initialTodoListState from '@/todolist/model/state/initialTodoListState';
     import createTodoListStateSelectors from '@/todolist/model/state/createTodoListStateSelectors';
+    import createHeaderStateSelectors from '@/header/model/state/createHeaderStateSelectors';
     
     const initialState = {
-      todosState: initialTodosState,
-      otherState: initialOtherState
+      headerState: initialHeaderState,
+      todosState: initialTodoListState
     };
     
     export type State = typeof initialState;
     
     const selectors = combineSelectors([
-      createTodosStateSelectors<State>(),
-      createOtherStateSelectors<State>()
+      createTodoListStateSelectors<State>(),
+      createHeaderStateSelectors<State>()
     ]);
     
     export default createStore(initialState, selectors);
 
+
 ### State
 
 #### Initial state
+initialHeaderState.ts
+
+    export default {
+      userName: 'John'
+    };
+
 initialTodoListState.ts
 
     export interface Todo {
@@ -220,6 +283,17 @@ initialTodoListState.ts
     };
 
 #### State selectors
+createHeaderStateSelectors.ts
+
+    import { State } from '@/store/store';
+    
+    const createHeaderStateSelectors = <T extends State>() => ({
+      userName: (state: T) => state.headerState.userName
+    });
+    
+    export default createHeaderStateSelectors;
+
+
 createTodoListStateSelectors.ts
 
     import { State } from '@/store/store';
@@ -275,6 +349,16 @@ todoService.ts
     export default new FakeTodoService();
 
 ### Actions
+changeUserName.ts
+
+    import store from "@/store/store";
+    
+    export default function changeUserName(newUserName: string): void {
+      const { headerState } = store.getState();
+      headerState.userName = newUserName;
+    }
+
+
 addTodo.ts
     
     import store from '@/store/store';
