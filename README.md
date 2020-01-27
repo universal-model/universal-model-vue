@@ -55,9 +55,9 @@ Universal model is a model which can be used with any of following UI frameworks
     createSubState(subState);
     const store = createStore(initialState, combineSelectors(selectors));
     
-    const state = store.getState();
-    const selectors = store.getSelectors();
-    const [state, selectors] = store.getStateAndSelectors();
+    const { componentAState } = store.getState();
+    const { selector1, selector2 } = store.getSelectors();
+    const [{ componentAState }, { selector1, selector2 }] = store.getStateAndSelectors();
         
 ## API Examples
 **Create and export store in store.ts:**
@@ -85,9 +85,16 @@ Universal model is a model which can be used with any of following UI frameworks
 Don't modify other component's state directly inside action, but instead 
 call other component's action
 
-    export default function changeComponentAStateProp1(newValue) {
+    export default function changeComponentAAndBState(newAValue, newBValue) {
       const { componentAState } = store.getState();
-      componentAState.prop1 = newValue;
+      componentAState.prop1 = newAValue;
+      
+      // BAD
+      const { componentBState } = store.getState();
+      componentBState.prop1 = newBValue;
+      
+      // GOOD
+      changeComponentBState(newBValue);
     }
     
 **Use actions, state and selectors in View**
@@ -103,7 +110,7 @@ provided by those components. This will ensure encapsulation of each component's
         componentAState,
         selector1,
         selector2,
-        changeComponentAStateProp1
+        changeComponentAState
       };
     }
             
