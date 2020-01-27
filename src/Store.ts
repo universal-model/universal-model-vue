@@ -1,7 +1,8 @@
 import { Ref, UnwrapRef, ComputedRef, reactive, computed } from 'vue';
+import { SubStateFlagWrapper } from './createSubState';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type State = { [key: string]: any };
+export type SubState = Omit<object, '__isSubState__'> & SubStateFlagWrapper;
+export type State = { [key: string]: SubState };
 
 export type SelectorsBase<T extends State> = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
