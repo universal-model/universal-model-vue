@@ -3,8 +3,7 @@ export type SubStateFlagWrapper = {
 };
 
 type AllowedSubStateProperties<T extends object> = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [K in keyof T]: K extends '__isSubState__' ? never : any;
+  [K in keyof T]: K extends '__isSubState__' ? never : T[K];
 };
 
 export default function createSubState<T extends object>(
