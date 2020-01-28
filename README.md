@@ -89,8 +89,8 @@ Universal model is a model which can be used with any of following UI frameworks
     
     export default createStore(initialState, selectors);
     
-in large projects you should have multiple sub stores which are combined together to a single
-store in store.js:
+in large projects you should have sub stores for components and these sub store are combined 
+together to a single store in store.js:
 
 componentBStore.js
 
@@ -132,7 +132,7 @@ store.js
 **Access store in Actions**
 
 Don't modify other component's state directly inside action, but instead 
-call other component's action
+call other component's action. This will ensure encapsulation of component's own state.
 
     export default function changeComponentAAndBState(newAValue, newBValue) {
       const { componentAState } = store.getState();
@@ -194,7 +194,7 @@ HeaderView.vue
 
     <template>
       <div>
-        <h1>{{ headerState.userName }}</h1>
+        <h1>{{ headerText }}</h1>
         <label for="userName">User name:</label>
         <input id="userName" @change="({ target: { value } }) => changeUserName(value)" />
       </div>
@@ -208,10 +208,10 @@ HeaderView.vue
       name: 'HeaderView',
     
       setup(): object {
-        const [{ headerState }] = store.getStateAndSelectors();
+        const { headerText } = store.getSelectors();
     
         return {
-          headerState,
+          headerText,
           changeUserName
         };
       }
@@ -351,7 +351,12 @@ createHeaderStateSelectors.ts
     import { State } from '@/store/store';
     
     const createHeaderStateSelectors = <T extends State>() => ({
-      userName: (state: T) => state.headerState.userName
+      userName: (state: T) => state.headerState.userName,
+      headerText: (state: T) => {
+          const unDoneTodoCount = state.todosState.todos.filter((todo: Todo) => !todo.isDone).length;
+          const todoCount = state.todosState.todos.length;
+          return `${state.headerState.userName} (${unDoneTodoCount}/${todoCount})`
+        }
     });
     
     export default createHeaderStateSelectors;
