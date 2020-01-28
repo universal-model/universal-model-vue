@@ -40,6 +40,8 @@ Universal model is a model which can be used with any of following UI frameworks
       |- componentB
       |  |- componentB_1
       |  |- componentB_2
+      |- componentC
+      |- |- view
       |  .
       |  .
       |- componentN
@@ -64,7 +66,11 @@ Universal model is a model which can be used with any of following UI frameworks
     
     const initialState = {
       componentAState: createSubState(initialComponentAState),
+      
       componentBState: createSubState(initialComponentBState),
+      componentB_1State: createSubState(initialComponentB_1State),
+      component1ForComponentBState: createSubState(initialComponent1State),
+      component2ForComponentBState: createSubState(initialComponent2State),
       .
       .
     };
@@ -74,10 +80,53 @@ Universal model is a model which can be used with any of following UI frameworks
     const selectors = combineSelectors([
       createComponentAStateSelectors<State>(),
       createComponentBStateSelectors<State>(),
+      createComponentB_1StateSelectors<State>(),
+      createComponent1Selectors<State>('componentB');
+      createComponent2Selectors<State>('componentB');
       .
       .
     ]);
     
+    export default createStore(initialState, selectors);
+    
+in large projects you should have multiple sub stores which are combined together to a single
+store in store.js:
+
+componentBStore.js
+
+    const componentBnitialState = { 
+      componentBState: createSubState(initialComponentBState),
+      componentB_1State: createSubState(initialComponentB_1State),
+      component1ForComponentBState: createSubState(initialComponent1State),
+      component2ForComponentBState: createSubState(initialComponent2State),  
+    };
+    
+    const componentBSelectors = combineSelectors([
+      createComponentBStateSelectors<State>(),
+      createComponentB_1StateSelectors<State>(),
+      createComponent1Selectors<State>('componentB');
+      createComponent2Selectors<State>('componentB');
+    ]);
+    
+store.js
+
+    const initialState = {
+       ...componentAInitialState,
+       ...componentBInitialState,
+       .
+       .
+       ...componentNInitialState
+    };
+          
+    export type State = typeof initialState;
+        
+    const selectors = combineSelectors([
+      componentASelectors,
+      componentBSelectors,
+      ...
+      componentNSelectors
+    ]);
+        
     export default createStore(initialState, selectors);
     
 **Access store in Actions**
@@ -110,6 +159,7 @@ provided by those components. This will ensure encapsulation of each component's
         componentAState,
         selector1,
         selector2,
+        // Action
         changeComponentAState
       };
     }
