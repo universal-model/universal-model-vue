@@ -62,6 +62,23 @@ Universal model is a model which can be used with any of following UI frameworks
     const [{ componentAState }, { selector1, selector2 }] = store.getStateAndSelectors();
         
 ## API Examples
+**Create initial states**
+
+    const initialComponentAState = {
+      prop1: 0,
+      prop2: 0
+    };
+    
+**Create selectors**
+
+    const createComponentASelectors = <T extends State>() => ({
+      selector1: (state: State) => state.componentAState.prop1  + state.componentAState.prop2
+      selector2: (state: State) => {
+        const { componentBSelector1, componentBSelector2 } = createComponentBSelectors<State>();
+        return state.componentAState.prop1 + componentBSelector1(state) + componentBSelector2(state);
+      }
+    });
+    
 **Create and export store in store.ts:**
     
     const initialState = {
@@ -353,10 +370,13 @@ createHeaderStateSelectors.ts
     const createHeaderStateSelectors = <T extends State>() => ({
       userName: (state: T) => state.headerState.userName,
       headerText: (state: T) => {
-          const unDoneTodoCount = state.todosState.todos.filter((todo: Todo) => !todo.isDone).length;
-          const todoCount = state.todosState.todos.length;
-          return `${state.headerState.userName} (${unDoneTodoCount}/${todoCount})`
-        }
+        const {
+          todoCount: selectTodoCount,
+          unDoneTodoCount: selectUnDoneTodoCount
+        } = createTodoListStateSelectors<T>();
+      
+        return `${state.headerState.userName} (${selectUnDoneTodoCount(state)}/${selectTodoCount(state)})`;
+      }
     });
     
     export default createHeaderStateSelectors;
@@ -373,7 +393,9 @@ createTodoListStateSelectors.ts
           (todo: Todo) =>
             (state.todosState.shouldShowOnlyUnDoneTodos && !todo.isDone) ||
             !state.todosState.shouldShowOnlyUnDoneTodos
-        )
+        ),
+      todoCount: (state: T) => state.todosState.todos.length,
+      unDoneTodoCount: (state: T) => state.todosState.todos.filter((todo: Todo) => !todo.isDone).length
     });
     
     export default createTodoListStateSelectors;
