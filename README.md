@@ -25,6 +25,7 @@ Universal model is a model which can be used with any of following UI frameworks
 * Views contain NO business logic
 * There can be multiple interchangable views that use same part of model
 * A new view can be created to represent model differently without any changes to model
+* View technology can be changed without changes to the model
     
 ## Clean UI Code directory layout
 
