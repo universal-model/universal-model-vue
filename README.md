@@ -21,7 +21,7 @@ Universal model is a model which can be used with any of following UI frameworks
 * Actions are part of model and they manipulate state that is stored
 * Actions can use services to interact with external (backend) systems
 * State changes trigger view updates
-* Selectors select and calculate a transformed version of state that causes view updates
+* Selectors select part of state and optionally calculate a transformed version of state that causes view updates
 * Views contain NO business logic
 * There can be multiple interchangable views that use same part of model
 * A new view can be created to represent model differently without any changes to model
@@ -34,9 +34,10 @@ Universal model is a model which can be used with any of following UI frameworks
       |- common
       |  |- component1
       |  |- component2
-      |     |- component2_1
-      |     .
-      |     .
+      |  .  |- component2_1
+      |  .  .
+      |  .  .
+      |  .
       |- componentA
       |- componentB
       |  |- componentB_1
@@ -71,6 +72,10 @@ Universal model is a model which can be used with any of following UI frameworks
     };
     
 **Create selectors**
+
+When using foreign state inside selectors, prefer creating foreign state selectors and accessing foreign
+state through them instead of directly accessing foreign state inside selector. This will ensure  better
+encapsulation of component state.
 
     const createComponentASelectors = <T extends State>() => ({
       selector1: (state: State) => state.componentAState.prop1  + state.componentAState.prop2
@@ -129,11 +134,11 @@ componentBStore.js
 store.js
 
     const initialState = {
-       ...componentAInitialState,
-       ...componentBInitialState,
-       .
-       .
-       ...componentNInitialState
+      ...componentAInitialState,
+      ...componentBInitialState,
+      .
+      .
+      ...componentNInitialState
     };
           
     export type State = typeof initialState;
@@ -339,7 +344,6 @@ store.ts
     
     export default createStore(initialState, selectors);
 
-
 ### State
 
 #### Initial state
@@ -506,13 +510,13 @@ fetchTodos.ts
       todosState.isFetchingTodos = true;
       todosState.hasTodosFetchFailure = false;
         
-        try {
-          todosState.todos = await todoService.tryFetchTodos();
-        } catch (error) {
-          todosState.hasTodosFetchFailure = true;
-        }
+      try {
+        todosState.todos = await todoService.tryFetchTodos();
+      } catch (error) {
+        todosState.hasTodosFetchFailure = true;
+      }
         
-        todosState.isFetchingTodos = false;
+      todosState.isFetchingTodos = false;
     }
     
 ### Full Example
