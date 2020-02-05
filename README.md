@@ -31,6 +31,10 @@ with [universal-model] library
 * View technology can be changed without changes to the model
     
 ## Clean UI Code directory layout
+UI application is diveded into UI components. Common UI components should be put into common directory. Each component
+can consist of subcomponents. Each component has a view and optionally controller and model. Model consists of actions, state
+and selectors. In large scale apps, model can contain substore. Application has one store which is composed of each components'
+state (or substores)
 
     - src
       |
