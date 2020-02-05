@@ -93,6 +93,9 @@ encapsulation of component state.
     });
     
 **Create and export store in store.ts:**
+
+combineSelectors() call is not necessarily needed, but it checks if there are duplicate keys in selectors
+and will throw an error.
     
     const initialState = {
       componentAState: createSubState(initialComponentAState),
