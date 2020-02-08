@@ -95,7 +95,8 @@ encapsulation of component state.
 **Create and export store in store.ts:**
 
 combineSelectors() call is not necessarily needed, but it checks if there are duplicate keys in selectors
-and will throw an error.
+and will throw an error telling which key was duplicated.
+Using combineSelectors you can keep your selector names short and only namespace them if needed.
     
     const initialState = {
       componentAState: createSubState(initialComponentAState),
@@ -120,7 +121,7 @@ and will throw an error.
       .
     ]);
     
-    export default createStore(initialState, selectors);
+    export default createStore<State, typeof selectors>(initialState, selectors);
     
 in large projects you should have sub stores for components and these sub store are combined 
 together to a single store in store.js:
@@ -351,12 +352,15 @@ store.ts
     
     export type State = typeof initialState;
     
-    const selectors = combineSelectors([
-      createTodoListStateSelectors<State>(),
-      createHeaderStateSelectors<State>()
+    const headerStateSelectors =  createHeaderStateSelectors<State>();
+    const todoListStateSelectors = createTodoListStateSelectors<State>();
+    
+    const selectors = combineSelectors<State, typeof headerStateSelectors, typeof todoListStateSelectors>([
+     headerStateSelectors,
+     todoListStateSelectors 
     ]);
     
-    export default createStore(initialState, selectors);
+    export default createStore<State, typeof selectors>(initialState, selectors);
 
 ### State
 
