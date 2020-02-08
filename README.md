@@ -100,26 +100,18 @@ Using combineSelectors you can keep your selector names short and only namespace
     
     const initialState = {
       componentAState: createSubState(initialComponentAState),
-      
-      componentBState: createSubState(initialComponentBState),
-      componentB_1State: createSubState(initialComponentB_1State),
-      component1ForComponentBState: createSubState(initialComponent1State),
-      component2ForComponentBState: createSubState(initialComponent2State),
-      .
-      .
+      componentBState: createSubState(initialComponentBState)
     };
     
     export type State = typeof initialState;
     
-    const selectors = combineSelectors([
+    const componentAStateSelectors = createComponentAStateSelectors<State>();
+    const componentBStateSelectors = createComponentBStateSelectors<State>();
+    
+    const selectors = combineSelectors(
       createComponentAStateSelectors<State>(),
-      createComponentBStateSelectors<State>(),
-      createComponentB_1StateSelectors<State>(),
-      createComponent1Selectors<State>('componentB');
-      createComponent2Selectors<State>('componentB');
-      .
-      .
-    ]);
+      createComponentBStateSelectors<State>()
+    );
     
     export default createStore<State, typeof selectors>(initialState, selectors);
     
@@ -355,10 +347,10 @@ store.ts
     const headerStateSelectors =  createHeaderStateSelectors<State>();
     const todoListStateSelectors = createTodoListStateSelectors<State>();
     
-    const selectors = combineSelectors<State, typeof headerStateSelectors, typeof todoListStateSelectors>([
+    const selectors = combineSelectors<State, typeof headerStateSelectors, typeof todoListStateSelectors>(
      headerStateSelectors,
      todoListStateSelectors 
-    ]);
+    );
     
     export default createStore<State, typeof selectors>(initialState, selectors);
 

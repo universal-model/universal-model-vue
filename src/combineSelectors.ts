@@ -12,7 +12,7 @@ export function combineSelectors<
   U1 extends SelectorsBase<T>,
   U2 extends SelectorsBase<T>,
   U3 extends SelectorsBase<T>
-  >(
+>(
   selectorsObject1: Selectors<T, U1>,
   selectorsObject2: Selectors<T, U2>,
   selectorsObject3: Selectors<T, U3>
@@ -24,7 +24,7 @@ export function combineSelectors<
   U2 extends SelectorsBase<T>,
   U3 extends SelectorsBase<T>,
   U4 extends SelectorsBase<T>
-  >(
+>(
   selectorsObject1: Selectors<T, U1>,
   selectorsObject2: Selectors<T, U2>,
   selectorsObject3: Selectors<T, U3>,
@@ -38,7 +38,7 @@ export function combineSelectors<
   U3 extends SelectorsBase<T>,
   U4 extends SelectorsBase<T>,
   U5 extends SelectorsBase<T>
-  >(
+>(
   selectorsObject1: Selectors<T, U1>,
   selectorsObject2: Selectors<T, U2>,
   selectorsObject3: Selectors<T, U3>,
@@ -54,7 +54,7 @@ export function combineSelectors<
   U4 extends SelectorsBase<T>,
   U5 extends SelectorsBase<T>,
   U6 extends SelectorsBase<T>
-  >(
+>(
   selectorsObject1: Selectors<T, U1>,
   selectorsObject2: Selectors<T, U2>,
   selectorsObject3: Selectors<T, U3>,
@@ -77,7 +77,7 @@ export function combineSelectors<
   U5 extends SelectorsBase<T>,
   U6 extends SelectorsBase<T>,
   U7 extends SelectorsBase<T>
-  >(
+>(
   selectorsObject1: Selectors<T, U1>,
   selectorsObject2: Selectors<T, U2>,
   selectorsObject3: Selectors<T, U3>,
@@ -103,7 +103,7 @@ export function combineSelectors<
   U6 extends SelectorsBase<T>,
   U7 extends SelectorsBase<T>,
   U8 extends SelectorsBase<T>
-  >(
+>(
   selectorsObject1: Selectors<T, U1>,
   selectorsObject2: Selectors<T, U2>,
   selectorsObject3: Selectors<T, U3>,
@@ -132,7 +132,7 @@ export function combineSelectors<
   U7 extends SelectorsBase<T>,
   U8 extends SelectorsBase<T>,
   U9 extends SelectorsBase<T>
-  >(
+>(
   selectorsObject1: Selectors<T, U1>,
   selectorsObject2: Selectors<T, U2>,
   selectorsObject3: Selectors<T, U3>,
@@ -164,7 +164,7 @@ export function combineSelectors<
   U8 extends SelectorsBase<T>,
   U9 extends SelectorsBase<T>,
   U10 extends SelectorsBase<T>
-  >(
+>(
   selectorsObject1: Selectors<T, U1>,
   selectorsObject2: Selectors<T, U2>,
   selectorsObject3: Selectors<T, U3>,
@@ -199,7 +199,7 @@ export function combineSelectors<
   U9 extends SelectorsBase<T>,
   U10 extends SelectorsBase<T>,
   U11 extends SelectorsBase<T>
-  >(
+>(
   selectorsObject1: Selectors<T, U1>,
   selectorsObject2: Selectors<T, U2>,
   selectorsObject3: Selectors<T, U3>,
@@ -237,7 +237,7 @@ export function combineSelectors<
   U10 extends SelectorsBase<T>,
   U11 extends SelectorsBase<T>,
   U12 extends SelectorsBase<T>
-  >(
+>(
   selectorsObject1: Selectors<T, U1>,
   selectorsObject2: Selectors<T, U2>,
   selectorsObject3: Selectors<T, U3>,
