@@ -31,7 +31,7 @@ with [universal-model] library
 * View technology can be changed without changes to the model
     
 ## Clean UI Code directory layout
-UI application is diveded into UI components. Common UI components should be put into common directory. Each component
+UI application is divided into UI components. Common UI components should be put into common directory. Each component
 can consist of subcomponents. Each component has a view and optionally controller and model. Model consists of actions, state
 and selectors. In large scale apps, model can contain substore. Application has one store which is composed of each components'
 state (or substores)
@@ -94,9 +94,8 @@ encapsulation of component state.
     
 **Create and export store in store.ts:**
 
-combineSelectors() call is not necessarily needed, but it checks if there are duplicate keys in selectors
-and will throw an error telling which key was duplicated.
-Using combineSelectors you can keep your selector names short and only namespace them if needed.
+combineSelectors() checks if there are duplicate keys in selectors and will throw an error telling which key was duplicated.
+By using combineSelectors you can keep your selector names short and only namespace them if needed.
     
     const initialState = {
       componentAState: createSubState(initialComponentAState),
@@ -108,9 +107,9 @@ Using combineSelectors you can keep your selector names short and only namespace
     const componentAStateSelectors = createComponentAStateSelectors<State>();
     const componentBStateSelectors = createComponentBStateSelectors<State>();
     
-    const selectors = combineSelectors(
-      createComponentAStateSelectors<State>(),
-      createComponentBStateSelectors<State>()
+    const selectors = combineSelectors<State, typeof componentAStateSelectors, typeof componentBStateSelectors>(
+      componentAStateSelectors,
+      componentBStateSelectors
     );
     
     export default createStore<State, typeof selectors>(initialState, selectors);
@@ -120,19 +119,21 @@ together to a single store in store.js:
 
 **componentBStore.js**
 
-    const componentBnitialState = { 
+    const componentBInitialState = { 
       componentBState: createSubState(initialComponentBState),
       componentB_1State: createSubState(initialComponentB_1State),
-      component1ForComponentBState: createSubState(initialComponent1State),
-      component2ForComponentBState: createSubState(initialComponent2State),  
+      component1ForComponentBState: createSubState(initialComponent1State) 
     };
     
-    const componentBSelectors = combineSelectors([
-      createComponentBStateSelectors<State>(),
-      createComponentB_1StateSelectors<State>(),
-      createComponent1Selectors<State>('componentB');
-      createComponent2Selectors<State>('componentB');
-    ]);
+    const componentBStateSelectors = createComponentBStateSelectors<State>();
+    const componentB_1StateSelectors = createComponentB_1StateSelectors<State>();
+    const component1Selectors = createComponent1Selectors<State>('componentB');
+    
+    const componentBSelectors = combineSelectors<State, typeof componentBStateSelectors, typeof componentB_1StateSelectors, typeof component1Selectors>(
+      componentBStateSelectors,
+      componentB_1StateSelectors,
+      component1Selectors
+    );
     
 **store.js**
 
@@ -140,20 +141,19 @@ together to a single store in store.js:
       ...componentAInitialState,
       ...componentBInitialState,
       .
-      .
       ...componentNInitialState
     };
           
     export type State = typeof initialState;
         
-    const selectors = combineSelectors([
+    const selectors = combineSelectors<State, typeof componentASelectors, typeof componentBSelectors, typeof componentNSelectors>([
       componentASelectors,
       componentBSelectors,
-      ...
+      .
       componentNSelectors
     ]);
         
-    export default createStore(initialState, selectors);
+    export default createStore<State, typeof selectors>(initialState, selectors);
     
 **Access store in Actions**
 
