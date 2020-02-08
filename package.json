@@ -48,7 +48,7 @@
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
     "typescript": "^3.7.4",
-    "vue": "^3.0.0-alpha.1"
+    "vue": "^3.0.0-alpha.4"
   },
   "browserslist": [
     "last 2 version",
