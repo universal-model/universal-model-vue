@@ -529,8 +529,11 @@ fetchTodos.ts
       todosState.isFetchingTodos = false;
     }
     
-### Full Example
+### Full Examples
+
 https://github.com/universal-model/universal-model-vue-todo-app
+
+https://github.com/universal-model/universal-model-react-todos-and-notes-app
 
 ### Dependency injection
 If you would like to use dependency injection (noicejs) in your app, check out this [example],
