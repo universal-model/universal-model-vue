@@ -1,5 +1,11 @@
 # Universal Model for Vue
 
+[![version][version-badge]][package]
+[![Downloads][Downloads]][package]
+[![build][build]][circleci]
+[![MIT License][license-badge]][license]
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Funiversal-model%2Funiversal-model-vue.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Funiversal-model%2Funiversal-model-vue?ref=badge_shield)
+
 Universal model is a model which can be used with any of following UI frameworks:
 * Angular 2+ [universal-model-angular]
 * React 16.8+ [universal-model-react]
@@ -542,6 +548,13 @@ where DI is used to create services.
 ### License
 MIT License
 
+[license-badge]: https://img.shields.io/badge/license-MIT-green
+[license]: https://github.com/universal-model/universal-model-vue/blob/master/LICENSE
+[version-badge]: https://img.shields.io/npm/v/universal-model-vue.svg?style=flat-square
+[package]: https://www.npmjs.com/package/universal-model-vue
+[build]: https://img.shields.io/circleci/project/github/universal-model/universal-model-vue/master.svg?style=flat-square
+[circleci]: https://circleci.com/gh/universal-model/universal-model-vue/tree/master
+[Downloads]: https://img.shields.io/npm/dm/universal-model-vue
 [example]: https://github.com/universal-model/react-todo-app-with-dependency-injection
 [universal-model]: https://github.com/universal-model/universal-model
 [universal-model-angular]: https://github.com/universal-model/universal-model-angular
