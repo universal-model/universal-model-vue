@@ -75,6 +75,8 @@ state (or sub-stores)
     const { componentAState } = store.getState();
     const { selector1, selector2 } = store.getSelectors();
     const [{ componentAState }, { selector1, selector2 }] = store.getStateAndSelectors();
+    
+[Detailed API documentation](docs/API.md)
         
 ## API Examples
 **Create initial states**
