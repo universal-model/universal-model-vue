@@ -76,7 +76,7 @@ state (or sub-stores)
     const { selector1, selector2 } = store.getSelectors();
     const [{ componentAState }, { selector1, selector2 }] = store.getStateAndSelectors();
     
-[Detailed API documentation](docs/API.md)
+[Detailed API documentation](https://github.com/universal-model/universal-model-vue/blob/master/docs/API.md)
         
 ## API Examples
 **Create initial states**

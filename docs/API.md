@@ -1,7 +1,5 @@
 # API Documentation
 
-## Vue API
-
 ### createSubState
     
     type SubStateFlagWrapper = {
