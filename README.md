@@ -4,6 +4,7 @@
 [![Downloads][Downloads]][package]
 [![build][build]][circleci]
 [![coverage][coverage]][codecov]
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=universal-model_universal-model-vue&metric=alert_status)](https://sonarcloud.io/dashboard?id=universal-model_universal-model-vue)
 [![MIT License][license-badge]][license]
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Funiversal-model%2Funiversal-model-vue.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Funiversal-model%2Funiversal-model-vue?ref=badge_shield)
 
