@@ -3,6 +3,7 @@
 [![version][version-badge]][package]
 [![Downloads][Downloads]][package]
 [![build][build]][circleci]
+[![coverage][coverage]][codecov]
 [![MIT License][license-badge]][license]
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Funiversal-model%2Funiversal-model-vue.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Funiversal-model%2Funiversal-model-vue?ref=badge_shield)
 
@@ -562,3 +563,5 @@ MIT License
 [universal-model-angular]: https://github.com/universal-model/universal-model-angular
 [universal-model-react]: https://github.com/universal-model/universal-model-react
 [universal-model-svelte]: https://github.com/universal-model/universal-model-svelte
+[coverage]: https://img.shields.io/codecov/c/github/universal-model/universal-model-vue/master.svg?style=flat-square
+[codecov]: https://codecov.io/gh/universal-model/universal-model-vue

@@ -12,7 +12,7 @@
     "check-types": "tsc --outDir ./lib/types",
     "build": "babel ./src --out-dir lib --source-maps --extensions \".ts\", --ignore \"src/tests\",\"src/setupTests.js\"",
     "lint": "eslint ./src --ext .ts",
-    "prebuild": "npm run clean && npm run prettier && npm run lint && npm run check-types",
+    "prebuild": "npm run clean && npm run prettier && npm run lint && npm run check-types && npm run test-coverage",
     "prepublishOnly": "npm run build",
     "prettier": "prettier --check \"src/**/*.ts\"",
     "test-coverage": "jest ./src --coverage"
@@ -43,6 +43,7 @@
     "@types/estree": "0.0.42",
     "@types/jest": "^25.1.2",
     "@types/lodash": "^4.14.149",
+    "@types/node": "^13.7.1",
     "@typescript-eslint/eslint-plugin": "^2.15.0",
     "@typescript-eslint/parser": "^2.15.0",
     "eslint": "^6.8.0",

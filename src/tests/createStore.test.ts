@@ -17,6 +17,7 @@ describe('createStore', () => {
     // THEN
     expect(store.getState().subState1).toStrictEqual({ value: 0, __isSubState__: true });
     expect(store.getSelectors().selector1.value).toBe(1);
+    expect(store.getStateAndSelectors()[0].subState1).toStrictEqual({ value: 0, __isSubState__: true });
   });
 
   it('should throw an error if one of sub-state is not a sub-state', () => {
