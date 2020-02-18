@@ -3,7 +3,16 @@ import createSubState from '../createSubState';
 describe('createSubState', () => {
   it('should create sub-state from initial state object successfully', () => {
     // WHEN
-    const subState = createSubState({ value: 1 });
+    const subState = createSubState({
+      number: 1,
+      boolean: true,
+      string: '',
+      undefined: undefined,
+      null: null,
+      obj: {
+        value: 1
+      }
+    });
 
     // THEN
     expect(subState.__isSubState__).toBe(true);
