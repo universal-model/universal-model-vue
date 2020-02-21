@@ -549,6 +549,9 @@ https://github.com/universal-model/universal-model-react-todos-and-notes-app
 If you would like to use dependency injection (noicejs) in your app, check out this [example],
 where DI is used to create services.
 
+### Donate/Sponsor
+If you would like to help me to develop more great stuff, you can [donate](https://paypal.me/pksilen) or [sponsor](https://patreon.com/pksilen). Thank you!
+
 ### License
 MIT License
 
