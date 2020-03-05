@@ -189,10 +189,11 @@ provided by those components. This will ensure encapsulation of each component's
 
     export default {
       setup(): object {
-        const [ { componentAState }, { selector1, selector2 }] = store.getStateAndSelectors();
+        const [ { componentAState, componentBState }, { selector1, selector2 }] = store.getStateAndSelectors();
       
       return {
         componentAState,
+        foreignStateProp1: computed(() => componentBState.prop1),
         selector1,
         selector2,
         // Action
